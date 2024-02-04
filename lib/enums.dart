@@ -1,0 +1,4 @@
+enum AuthDisplay {
+  signIn,
+  signUp,
+}
