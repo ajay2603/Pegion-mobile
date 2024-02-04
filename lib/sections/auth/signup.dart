@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import '../../components/textinputup.dart';
 import '../../enums.dart';
 
 class SignUp extends StatefulWidget {
   final Function changeSec;
+  final Function handleSignUp;
 
-  const SignUp({super.key, required this.changeSec});
+  const SignUp(
+      {super.key, required this.changeSec, required this.handleSignUp});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -18,6 +22,17 @@ class _SignUp extends State<SignUp> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _cnfPasswordController = TextEditingController();
+
+  String submit() {
+    Map<String, String> signUpData = {
+      'firstName': _firstNameController.text,
+      'lastName': _userNameController.text,
+      'userName': _userNameController.text,
+      'password': _passwordController.text,
+      'cnfPassword': _cnfPasswordController.text
+    };
+    return jsonEncode(signUpData);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +84,7 @@ class _SignUp extends State<SignUp> {
             ),
             Center(
               child: ElevatedButton(
-                onPressed: () => {},
+                onPressed: () => {widget.handleSignUp(submit())},
                 style: ElevatedButton.styleFrom(
                   fixedSize: const Size(220, 55),
                 ),
