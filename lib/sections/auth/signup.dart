@@ -23,15 +23,15 @@ class _SignUp extends State<SignUp> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _cnfPasswordController = TextEditingController();
 
-  String submit() {
+  Map submit() {
     Map<String, String> signUpData = {
-      'firstName': _firstNameController.text,
-      'lastName': _userNameController.text,
-      'userName': _userNameController.text,
-      'password': _passwordController.text,
-      'cnfPassword': _cnfPasswordController.text
+      'firstName': _firstNameController.text.trim(),
+      'lastName': _userNameController.text.trim(),
+      'userName': _userNameController.text.trim(),
+      'password': _passwordController.text.trim(),
+      'cnfPassword': _cnfPasswordController.text.trim()
     };
-    return jsonEncode(signUpData);
+    return signUpData;
   }
 
   @override

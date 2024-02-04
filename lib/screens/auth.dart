@@ -3,6 +3,7 @@ import 'dart:html';
 
 import "package:flutter/material.dart";
 import 'package:http/http.dart' as http;
+import 'package:pegion/screens/showalertdialog.dart';
 
 import '../sections/auth/signin.dart';
 import '../sections/auth/signup.dart';
@@ -20,6 +21,7 @@ class Auth extends StatefulWidget {
 class _Auth extends State<Auth> {
   late Widget display;
   late var Http;
+  late var context;
 
   _Auth() {
     Http = http.Client();
@@ -30,17 +32,60 @@ class _Auth extends State<Auth> {
   }
 
   void handleSignIn(Map data) async {
-    final response = await Http.post(
-        Uri.parse('http://localhost:5050/api/user-auth/auth-user-login'),
-        body: {'userName': data['userName'], 'password': data['password']});
-    if (response.body) {
+    bool isEmptyFound = false;
+    data.forEach((key, value) {
+      if (!isEmptyFound && value == "") {
+        showAlertDialog(context, 'Message', '"$key" is empty');
+        isEmptyFound = true;
+        return;
+      }
+    });
+    if (isEmptyFound) {
+      return;
+    }
+    try {
+      final response = await Http.post(
+          Uri.parse('http://localhost:5050/api/user-auth/auth-user-login'),
+          body: {'userName': data['userName'], 'password': data['password']});
       final Map result = jsonDecode(response.body);
-    } else {
-      print('Error occured');
+    } catch (err) {
+      print(err);
+      showAlertDialog(context, 'Error', 'Error in connecting server');
     }
   }
 
-  void handleSignUp(String data) {}
+  void handleSignUp(Map data) async {
+    bool isEmptyFound = false;
+    data.forEach((key, value) {
+      if (!isEmptyFound && value == "") {
+        showAlertDialog(context, 'Message', '"$key" is empty');
+        isEmptyFound = true;
+        return;
+      }
+    });
+    if (isEmptyFound) {
+      return;
+    }
+    if (data['password'] != data['cnfPassword']) {
+      showAlertDialog(
+          context, "Warning", "Password and confirm Password should be same");
+      return;
+    }
+    try {
+      final response = await Http.post(
+          Uri.parse('http://localhost:5050/api/user-auth/add-new-user'),
+          body: {
+            'firstName': data['userName'],
+            'lastName': data['lastName'],
+            'userName': data['userName'],
+            'password': data['password']
+          });
+      final Map result = jsonDecode(response.body);
+    } catch (err) {
+      print(err);
+      showAlertDialog(context, 'Error', 'Error in connecting server');
+    }
+  }
 
   void authDisplay(AuthDisplay displayType) {
     setState(() {
@@ -60,6 +105,7 @@ class _Auth extends State<Auth> {
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return Scaffold(
       body: SafeArea(
         child: Padding(
