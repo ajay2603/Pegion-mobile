@@ -27,7 +27,8 @@ class _TextInputUp extends State<TextInputUp> {
           fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(
+              color: Color.fromARGB(255, 144, 144, 144), width: 2.5),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(

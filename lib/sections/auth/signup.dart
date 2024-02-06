@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import '../../components/textinputup.dart';
+import '../../components/txt_ip_su_usr.dart';
 import '../../enums.dart';
 
 class SignUp extends StatefulWidget {
@@ -67,8 +68,7 @@ class _SignUp extends State<SignUp> {
             const SizedBox(
               height: 20,
             ),
-            TextInputUp(
-                controller: _userNameController, lableText: "User Name"),
+            TxtIpSuUsr(controller: _userNameController),
             const SizedBox(
               height: 20,
             ),

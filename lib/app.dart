@@ -1,9 +1,31 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
+import './screens/home.dart';
 import './screens/auth.dart';
 
-class App extends StatelessWidget {
-  const App({super.key});
+class App extends StatefulWidget {
+  @override
+  _App createState() => _App();
+}
+
+class _App extends State<App> {
+  late Widget display;
+  late Widget auth;
+  late Widget home;
+
+  _App() {
+    this.auth = Auth(goToHome: goToHome);
+    this.home = Home();
+    this.display = auth;
+  }
+
+  void goToHome() {
+    setState(() {
+      display = home;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +50,7 @@ class App extends StatelessWidget {
           ),
         ),
       ),
-      home: const Auth(),
+      home: display,
     );
   }
 }
