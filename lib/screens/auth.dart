@@ -1,7 +1,7 @@
 import 'dart:convert';
 import "package:flutter/material.dart";
 import 'package:http/http.dart' as http;
-import 'package:pegion/components/showalertdialog.dart';
+import "../components/showalertdialog.dart";
 
 import '../components/overlay.dart';
 import '../sections/auth/signin.dart';
