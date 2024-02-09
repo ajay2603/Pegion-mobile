@@ -1,10 +1,22 @@
+import 'dart:convert';
 import 'dart:ui';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:http/http.dart' as Http;
+
+import 'package:path_provider/path_provider.dart';
+import 'package:pegion/components/home/userlistitem.dart';
+
+import './screens/loading.dart';
 import './screens/home.dart';
 import './screens/auth.dart';
+
+import './components/showalertdialog.dart';
+
+import 'consts.dart';
 
 class App extends StatefulWidget {
   @override
@@ -12,12 +24,47 @@ class App extends StatefulWidget {
 }
 
 class _App extends State<App> {
-  late Widget display;
-  late Widget auth;
+  late Widget display = LoadingPage();
+  late Widget auth = Auth(goToHome: goToHome);
+
+  var http = Http.Client();
 
   _App() {
-    this.auth = Auth(goToHome: goToHome);
-    this.display = auth;
+    validateSession();
+  }
+
+  void validateSession() async {
+    var userName;
+    var logID;
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/${authFile}');
+      String jsText = await file.readAsString();
+      var authDetails = jsonDecode(jsText);
+      userName = authDetails['userName'];
+      logID = authDetails['logID'];
+    } catch (err) {
+      print(err);
+      setState(() {
+        display = auth;
+      });
+    }
+
+    try {
+      var response = await http.post(
+          Uri.parse("$domain/api/user-auth/auth-session-login"),
+          body: {'userName': userName, 'logID': logID});
+      var result = jsonDecode(response.body);
+      if (result['stat']) {
+        setState(() {
+          display = Home(userName: userName);
+        });
+      } else {
+        display = auth;
+      }
+    } catch (err) {
+      showAlertDialog(context, "Error", err.toString());
+    }
   }
 
   void goToHome(userName) {
