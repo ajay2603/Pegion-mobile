@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import '../../components/textinputup.dart';
-import '../../components/txt_ip_su_usr.dart';
+import '../../components/forms/textinputup.dart';
+import '../../components/forms/txt_ip_su_usr.dart';
 import '../../enums.dart';
 
 class SignUp extends StatefulWidget {

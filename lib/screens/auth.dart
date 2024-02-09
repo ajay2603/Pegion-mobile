@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import "package:flutter/material.dart";
 import 'package:http/http.dart' as http;
 import "../components/showalertdialog.dart";
+import 'package:path_provider/path_provider.dart';
 
 import '../components/overlay.dart';
 import '../sections/auth/signin.dart';
@@ -51,7 +53,14 @@ class _Auth extends State<Auth> {
           body: {'userName': data['userName'], 'password': data['password']});
       final Map result = jsonDecode(response.body);
       if (result['stat']) {
-        widget.goToHome();
+        Map<String, String> authDetails = {
+          "userName": result['userName'],
+          "logID": result['logID'],
+        };
+        final directory = await getApplicationDocumentsDirectory();
+        final file = File('${directory.path}/${authFile}');
+        await file.writeAsString(jsonEncode(authDetails), mode: FileMode.write);
+        widget.goToHome(result['userName']);
       } else {
         if (result["err"]) {
           // ignore: use_build_context_synchronously

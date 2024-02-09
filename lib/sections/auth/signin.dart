@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import '../../components/textinputin.dart';
+import '../../components/forms/textinputin.dart';
 import '../../enums.dart';
-import '../../components/overlay.dart';
 
 class SignIn extends StatefulWidget {
   final Function changeSec;

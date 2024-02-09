@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import './screens/home.dart';
 import './screens/auth.dart';
@@ -13,22 +14,26 @@ class App extends StatefulWidget {
 class _App extends State<App> {
   late Widget display;
   late Widget auth;
-  late Widget home;
 
   _App() {
     this.auth = Auth(goToHome: goToHome);
-    this.home = Home();
     this.display = auth;
   }
 
-  void goToHome() {
+  void goToHome(userName) {
     setState(() {
-      display = home;
+      display = Home(userName: userName);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor:
+            Colors.transparent, // Change this to match your AppBar color
+      ),
+    );
     return MaterialApp(
       theme: ThemeData().copyWith(
         scaffoldBackgroundColor: const Color(0xFFFFFFFF),
