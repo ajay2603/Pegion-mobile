@@ -34,7 +34,7 @@ class _App extends State<App> {
 
   void goToHome(userName) {
     setState(() {
-      display = Home(userName: userName);
+      display = Home(userName: userName, goToAuth: goToAuth);
     });
   }
 
