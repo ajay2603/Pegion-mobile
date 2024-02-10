@@ -24,52 +24,23 @@ class App extends StatefulWidget {
 }
 
 class _App extends State<App> {
-  late Widget display = LoadingPage();
+  late Widget display = LoadingPage(
+    goToAuth: goToAuth,
+    goToHome: goToHome,
+  );
   late Widget auth = Auth(goToHome: goToHome);
 
   var http = Http.Client();
 
-  _App() {
-    validateSession();
-  }
-
-  void validateSession() async {
-    var userName;
-    var logID;
-    try {
-      final directory = await getApplicationDocumentsDirectory();
-      final file = File('${directory.path}/${authFile}');
-      String jsText = await file.readAsString();
-      var authDetails = jsonDecode(jsText);
-      userName = authDetails['userName'];
-      logID = authDetails['logID'];
-    } catch (err) {
-      print(err);
-      setState(() {
-        display = auth;
-      });
-    }
-
-    try {
-      var response = await http.post(
-          Uri.parse("$domain/api/user-auth/auth-session-login"),
-          body: {'userName': userName, 'logID': logID});
-      var result = jsonDecode(response.body);
-      if (result['stat']) {
-        setState(() {
-          display = Home(userName: userName);
-        });
-      } else {
-        display = auth;
-      }
-    } catch (err) {
-      showAlertDialog(context, "Error", err.toString());
-    }
-  }
-
   void goToHome(userName) {
     setState(() {
       display = Home(userName: userName);
+    });
+  }
+
+  void goToAuth() {
+    setState(() {
+      display = Auth(goToHome: goToHome);
     });
   }
 

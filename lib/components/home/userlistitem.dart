@@ -152,7 +152,6 @@ class _UserListItem extends State<UserListItem> {
       var response = await http.get(Uri.parse(
           '$domain/api/fetch/user-details/chat-list-info?userName=$userName'));
       var result = jsonDecode(response.body);
-      print(response.body);
       setState(() {
         disp = User(
           pic: result['profilePicPath'],

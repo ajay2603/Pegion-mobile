@@ -79,7 +79,6 @@ class _ChatList extends State<ChatList> {
           list = result['chats'];
           setList(list); // Add this line
         });
-        print(list);
       } else {
         showAlertDialog(context, 'Error', 'Error in fetching data');
       }

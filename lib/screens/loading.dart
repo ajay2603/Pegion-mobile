@@ -1,8 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:pegion/components/showalertdialog.dart';
+import '../consts.dart';
 
 class LoadingPage extends StatefulWidget {
-  const LoadingPage({super.key});
+  late Function goToAuth;
+  late Function goToHome;
+  LoadingPage({super.key, required this.goToAuth, required this.goToHome});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -16,6 +25,41 @@ class _LoadingPage extends State<LoadingPage> {
   void initState() {
     super.initState();
     startTimer();
+  }
+
+  _LoadingPage() {
+    validateSession();
+  }
+
+  void validateSession() async {
+    var userName;
+    var logID;
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/${authFile}');
+      String jsText = await file.readAsString();
+      var authDetails = jsonDecode(jsText);
+      userName = authDetails['userName'];
+      logID = authDetails['logID'];
+    } catch (err) {
+      print(err.toString());
+      widget.goToAuth();
+    }
+
+    try {
+      var response = await http.post(
+          Uri.parse("$domain/api/user-auth/auth-session-login"),
+          body: {'userName': userName, 'logID': logID});
+      var result = jsonDecode(response.body);
+      if (result['stat']) {
+        widget.goToHome(result['userName']);
+      } else {
+        widget.goToAuth();
+      }
+    } catch (err) {
+      print(err.toString());
+      showAlertDialog(context, "Error", "Unable to connect to Server");
+    }
   }
 
   List<String> dots = ["   ", ".  ", ".. ", "...", " ..", "  ."];
@@ -41,40 +85,42 @@ class _LoadingPage extends State<LoadingPage> {
       body: Container(
         color: const Color(0xFF6E00FF),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(
-                child: Text(
-                  "PEGION",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 35,
-                      fontFamily: "Comfortaa"),
-                ),
-              ),
-              SizedBox(
-                height: gaph,
-              ),
-              const SizedBox(
-                height: 175,
-                child: Image(
-                  image: AssetImage('assets/images/pegion_ico.png'),
-                ),
-              ),
-              SizedBox(
-                height: gaph,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Validating User ${dots[indx]}",
-                    style: const TextStyle(color: Colors.white, fontSize: 25),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Center(
+                  child: Text(
+                    "PEGION",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 35,
+                        fontFamily: "Comfortaa"),
                   ),
-                ],
-              ),
-            ],
+                ),
+                SizedBox(
+                  height: gaph,
+                ),
+                const SizedBox(
+                  height: 175,
+                  child: Image(
+                    image: AssetImage('assets/images/pegion_ico.png'),
+                  ),
+                ),
+                SizedBox(
+                  height: gaph,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Validating User ${dots[indx]}",
+                      style: const TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
