@@ -65,12 +65,15 @@ class _LoadingPage extends State<LoadingPage> {
               SizedBox(
                 height: gaph,
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(
-                  "Loading ${dots[indx]}",
-                  style: const TextStyle(color: Colors.white, fontSize: 30),
-                ),
-              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Validating User ${dots[indx]}",
+                    style: const TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

@@ -21,9 +21,16 @@ class Loading extends StatelessWidget {
           padding: EdgeInsets.only(left: 15),
           child: Container(
             decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 205, 205, 205),
-                shape: BoxShape.circle),
-            width: 45,
+              shape: BoxShape.circle,
+              border: Border.all(
+                  width: 2, color: Color.fromARGB(255, 213, 213, 214)),
+            ),
+            child: ClipOval(
+              child: Image.asset(
+                'assets/images/prf-load.png',
+                height: 45,
+              ),
+            ),
           ),
         ),
         Padding(
@@ -66,51 +73,66 @@ class User extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 15),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                  width: 2, color: Color.fromARGB(255, 213, 213, 214)),
-            ),
-            child: ClipOval(
-              child: Image.network(
-                '$domain$pic',
-                height: 45,
-              ),
-            ),
-          ),
+    return TextButton(
+      onPressed: () {},
+      style: ButtonStyle(
+        overlayColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.pressed)) {
+              return const Color.fromARGB(
+                  255, 213, 213, 214); // This is the color of the ripple
+            }
+            return null; // Defer to the widget's default.
+          },
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 15),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                    width: 2, color: Color.fromARGB(255, 213, 213, 214)),
+              ),
+              child: ClipOval(
+                child: Image.network(
+                  '$domain$pic',
+                  height: 45,
                 ),
               ),
-              SizedBox(
-                height: 3,
-              ),
-              Text(
-                userName,
-                style: TextStyle(
-                    color: Color.fromARGB(255, 102, 102, 102),
-                    fontStyle: FontStyle.italic),
-              )
-            ],
+            ),
           ),
-        ),
-      ],
+          Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                Text(
+                  userName,
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 102, 102, 102),
+                      fontStyle: FontStyle.italic),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -146,9 +168,9 @@ class _UserListItem extends State<UserListItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      /*decoration: BoxDecoration(
           border:
-              Border(bottom: BorderSide(width: 2, color: Color(0xFFE5E7EB)))),
+              Border(bottom: BorderSide(width: 2, color: Color(0xFFE5E7EB)))),*/
       height: 70,
       child: disp,
     );

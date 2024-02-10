@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/home/userlistitem.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+import '../sections/home/chatlist.dart';
 
 class Home extends StatefulWidget {
   late String userName;
@@ -11,15 +10,6 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  Widget display = Center(
-    child: Container(
-      child: LoadingAnimationWidget.staggeredDotsWave(
-        color: Color(0xFF6E00FF),
-        size: 65,
-      ),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +38,7 @@ class _Home extends State<Home> {
           ),
         ),
       ),
-      body: display,
+      body: ChatList(userName: widget.userName),
     );
   }
 }
