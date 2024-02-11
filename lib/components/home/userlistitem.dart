@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:pegion/screens/chatpage.dart';
 import '../../consts.dart';
 import 'package:http/http.dart' as Http;
 
@@ -28,13 +29,13 @@ class Loading extends StatelessWidget {
             child: ClipOval(
               child: Image.asset(
                 'assets/images/prf-load.png',
-                height: 45,
+                height: 50,
               ),
             ),
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 20),
+          padding: EdgeInsets.only(left: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +75,16 @@ class User extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatPage(
+              chatUserName: userName,
+            ),
+          ),
+        );
+      },
       style: ButtonStyle(
         overlayColor: MaterialStateProperty.resolveWith<Color?>(
           (Set<MaterialState> states) {
@@ -90,7 +100,7 @@ class User extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 15),
+            padding: EdgeInsets.only(left: 5),
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -100,7 +110,7 @@ class User extends StatelessWidget {
               child: ClipOval(
                 child: Image.network(
                   '$domain$pic',
-                  height: 45,
+                  height: 50,
                 ),
               ),
             ),

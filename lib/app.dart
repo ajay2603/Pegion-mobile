@@ -1,22 +1,13 @@
-import 'dart:convert';
 import 'dart:ui';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as Http;
 
-import 'package:path_provider/path_provider.dart';
-import 'package:pegion/components/home/userlistitem.dart';
-
 import './screens/loading.dart';
 import './screens/home.dart';
 import './screens/auth.dart';
-
-import './components/showalertdialog.dart';
-
-import 'consts.dart';
 
 class App extends StatefulWidget {
   @override

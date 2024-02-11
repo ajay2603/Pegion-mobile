@@ -56,7 +56,7 @@ class _LoadingPage extends State<LoadingPage> {
       } else {
         widget.goToAuth();
       }
-    } on HttpException catch (err) {
+    } on http.ClientException catch (err) {
       print(err.toString());
       showAlertDialog(context, "Error", "Network error");
     } catch (err) {
