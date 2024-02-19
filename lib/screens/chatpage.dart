@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,42 @@ class ChatPage extends StatefulWidget {
   ChatPage({required this.chatUserName});
   @override
   _ChatPage createState() => _ChatPage(chatUserName: chatUserName);
+}
+
+class LoadingName extends StatefulWidget {
+  @override
+  _LoadingName createState() => _LoadingName();
+}
+
+class _LoadingName extends State<LoadingName> {
+  _LoadingName() {
+    startTimer();
+  }
+
+  List<String> dots = ["   ", ".  ", ".. ", "...", " ..", "  ."];
+  int indx = 0;
+
+  void startTimer() {
+    Timer.periodic(const Duration(milliseconds: 200), (timer) {
+      if (indx == 5) {
+        setState(() {
+          indx = 0;
+        });
+      } else {
+        setState(() {
+          indx++;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return (Text(
+      "Fetching data${dots[indx]}",
+      style: TextStyle(fontSize: 18),
+    ));
+  }
 }
 
 class _ChatPage extends State<ChatPage> {
@@ -24,11 +61,7 @@ class _ChatPage extends State<ChatPage> {
     height: 42,
   );
 
-  Widget nameDisp = Container(
-    height: 17,
-    width: 150,
-    color: Color.fromARGB(255, 207, 207, 207),
-  );
+  Widget nameDisp = LoadingName();
 
   void getUser() async {
     try {
@@ -41,7 +74,6 @@ class _ChatPage extends State<ChatPage> {
           '$domain${result['profilePicPath']}',
           height: 42,
         );
-
         nameDisp = Text(
           '${result['firstName']} ${result['lastName']}',
           style: TextStyle(fontSize: 18),
