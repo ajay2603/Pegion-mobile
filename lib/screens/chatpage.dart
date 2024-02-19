@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as Http;
 import '../consts.dart';
+import '../sections/chatpage/messagebox.dart';
 
 class ChatPage extends StatefulWidget {
   late String chatUserName;
@@ -122,21 +123,15 @@ class _ChatPage extends State<ChatPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SingleChildScrollView(
-                        child: nameDisp,
-                      ),
+                      nameDisp,
                       SizedBox(
                         height: 3,
                       ),
-                      SingleChildScrollView(
-                        child: SingleChildScrollView(
-                          child: Text(
-                            chatUserName,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
+                      Text(
+                        chatUserName,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontStyle: FontStyle.italic,
                         ),
                       ),
                     ],
@@ -169,34 +164,7 @@ class _ChatPage extends State<ChatPage> {
               child: Text('Chat Area'),
             ),
           ),
-          Container(
-            color: Color.fromARGB(255, 213, 213, 214),
-            height: 60,
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.only(left: 15, right: 5),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Enter your message",
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.send_rounded,
-                          color: Color(0xFF6E00FF),
-                          size: 30,
-                        ))
-                  ],
-                ),
-              ),
-            ),
-          )
+          MessageBox(),
         ],
       ),
     );
