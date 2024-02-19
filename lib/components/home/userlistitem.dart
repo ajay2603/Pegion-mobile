@@ -29,7 +29,7 @@ class Loading extends StatelessWidget {
             child: ClipOval(
               child: Image.asset(
                 'assets/images/prf-load.png',
-                height: 50,
+                height: 47,
               ),
             ),
           ),
@@ -110,7 +110,7 @@ class User extends StatelessWidget {
               child: ClipOval(
                 child: Image.network(
                   '$domain$pic',
-                  height: 50,
+                  height: 47,
                 ),
               ),
             ),

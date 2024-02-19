@@ -130,8 +130,18 @@ class _ChatPage extends State<ChatPage> {
           ),
         ),
       ),
-      body: Center(
-        child: Text('Chat Area'),
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Text('Chat Area'),
+            ),
+          ),
+          Container(
+            color: Color.fromARGB(255, 213, 213, 214),
+            height: 75,
+          )
+        ],
       ),
     );
   }
