@@ -139,7 +139,7 @@ class _ChatPage extends State<ChatPage> {
           ),
           Container(
             color: Color.fromARGB(255, 213, 213, 214),
-            height: 75,
+            height: 60,
             child: Center(
               child: Padding(
                 padding: EdgeInsets.only(left: 15, right: 5),

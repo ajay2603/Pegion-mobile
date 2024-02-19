@@ -44,6 +44,7 @@ class _App extends State<App> {
       ),
     );
     return MaterialApp(
+      title: "Pegion",
       theme: ThemeData().copyWith(
         scaffoldBackgroundColor: const Color(0xFFFFFFFF),
         colorScheme: ColorScheme.fromSwatch(
