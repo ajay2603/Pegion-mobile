@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pegion/screens/chatpage.dart';
 import '../../consts.dart';
 import 'package:http/http.dart' as Http;
+import '../../user.dart';
 
 class UserListItem extends StatefulWidget {
   late String userName;
@@ -166,7 +167,9 @@ class _UserListItem extends State<UserListItem> {
         disp = User(
           pic: result['profilePicPath'],
           userName: userName,
-          name: result['firstName'] + " " + result['lastName'],
+          name: (userName == getUserG())
+              ? "Me"
+              : (result['firstName'] + " " + result['lastName']),
         );
       });
     } catch (err) {

@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:pegion/components/showalertdialog.dart';
 import '../consts.dart';
+import '../user.dart';
 
 class LoadingPage extends StatefulWidget {
   late Function goToAuth;
@@ -52,6 +53,8 @@ class _LoadingPage extends State<LoadingPage> {
           body: {'userName': userName, 'logID': logID});
       var result = jsonDecode(response.body);
       if (result['stat']) {
+        setUserG(userName);
+        setLogIdG(logID);
         widget.goToHome(result['userName']);
       } else {
         widget.goToAuth();

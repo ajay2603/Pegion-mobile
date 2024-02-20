@@ -3,7 +3,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as Http;
+import 'package:pegion/components/chatpage/msgdisp.dart';
 import 'package:pegion/components/chatpage/msgright.dart';
+import 'package:pegion/user.dart';
 import '../consts.dart';
 import '../sections/chatpage/messagebox.dart';
 import '../components/chatpage/msgleft.dart';
@@ -57,6 +59,7 @@ class _ChatPage extends State<ChatPage> {
   _ChatPage({required this.chatUserName}) {
     http = Http.Client();
     getUser();
+    getPrevMessages();
   }
 
   Widget imgDisp = Image.asset(
@@ -78,9 +81,30 @@ class _ChatPage extends State<ChatPage> {
           height: 42,
         );
         nameDisp = Text(
-          '${result['firstName']} ${result['lastName']}',
+          (getUserG() == chatUserName)
+              ? "Me"
+              : '${result['firstName']} ${result['lastName']}',
           style: TextStyle(fontSize: 18),
         );
+      });
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  List prevChat = [];
+  void getPrevMessages() async {
+    try {
+      var response = await http.post(
+          Uri.parse('$domain/api/messages/chats/fetch-previous-messages'),
+          body: {
+            'toUser': chatUserName,
+            'userName': getUserG(),
+            'logID': getLogIdG()
+          });
+      var result = jsonDecode(response.body);
+      setState(() {
+        prevChat = result['messages'];
       });
     } catch (err) {
       print(err);
@@ -163,11 +187,18 @@ class _ChatPage extends State<ChatPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-            child: Column(
-              children: [
-                MsgLeft(),
-                MsgRight(),
-              ],
+            child: SingleChildScrollView(
+              reverse: true,
+              child: Column(
+                children: [
+                  Column(
+                    children: [for (var msg in prevChat) MsgDisp(details: msg)],
+                  ),
+                  Column(
+                    children: [],
+                  )
+                ],
+              ),
             ),
           ),
           MessageBox(),

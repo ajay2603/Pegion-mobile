@@ -11,6 +11,7 @@ import '../sections/auth/signup.dart';
 
 import '../enums.dart';
 import '../consts.dart';
+import '../user.dart';
 
 class Auth extends StatefulWidget {
   final Function goToHome;
@@ -57,6 +58,8 @@ class _Auth extends State<Auth> {
           "userName": result['userName'],
           "logID": result['logID'],
         };
+        setLogIdG(result['logID']);
+        setUserG(result['userName']);
         final directory = await getApplicationDocumentsDirectory();
         final file = File('${directory.path}/${authFile}');
         await file.writeAsString(jsonEncode(authDetails), mode: FileMode.write);

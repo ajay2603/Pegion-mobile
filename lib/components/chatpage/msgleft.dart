@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MsgLeft extends StatefulWidget {
+  late String text;
+  late String time;
+
+  MsgLeft({required this.text, required this.time});
+
   @override
   _MsgLeft createState() => _MsgLeft();
 }
@@ -26,14 +31,18 @@ class _MsgLeft extends State<MsgLeft> {
               child: Padding(
                 padding: EdgeInsets.all(12),
                 child: Text(
-                    "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello"),
+                  widget.text,
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
               ),
             ),
             SizedBox(
               height: 5,
             ),
             Text(
-              "5:30 PM",
+              widget.time,
               style: TextStyle(
                   color: const Color.fromARGB(255, 110, 110, 110),
                   fontSize: 12),
