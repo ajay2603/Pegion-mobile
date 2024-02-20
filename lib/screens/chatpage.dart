@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as Http;
 import 'package:pegion/components/chatpage/msgdisp.dart';
 import 'package:pegion/components/chatpage/msgright.dart';
-import 'package:pegion/user.dart';
-import '../consts.dart';
+import 'package:pegion/global/user.dart';
+import '../global/consts.dart';
 import '../sections/chatpage/messagebox.dart';
 import '../components/chatpage/msgleft.dart';
 

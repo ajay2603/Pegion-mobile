@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as Http;
-import '../../consts.dart';
+import '../../global/consts.dart';
 
 class TxtIpSuUsr extends StatefulWidget {
   final TextEditingController controller;

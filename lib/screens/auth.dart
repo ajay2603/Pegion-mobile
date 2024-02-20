@@ -9,9 +9,9 @@ import '../components/overlay.dart';
 import '../sections/auth/signin.dart';
 import '../sections/auth/signup.dart';
 
-import '../enums.dart';
-import '../consts.dart';
-import '../user.dart';
+import '../global/enums.dart';
+import '../global/consts.dart';
+import '../global/user.dart';
 
 class Auth extends StatefulWidget {
   final Function goToHome;

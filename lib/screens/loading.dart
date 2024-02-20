@@ -6,8 +6,8 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:pegion/components/showalertdialog.dart';
-import '../consts.dart';
-import '../user.dart';
+import '../global/consts.dart';
+import '../global/user.dart';
 
 class LoadingPage extends StatefulWidget {
   late Function goToAuth;

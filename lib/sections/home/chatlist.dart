@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pegion/components/showalertdialog.dart';
 import '../../components/home/userlistitem.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import '../../consts.dart';
+import '../../global/consts.dart';
 
 class ChatList extends StatefulWidget {
   late var userName;

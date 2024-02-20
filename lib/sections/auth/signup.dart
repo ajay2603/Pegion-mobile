@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../components/forms/textinputup.dart';
 import '../../components/forms/txt_ip_su_usr.dart';
-import '../../enums.dart';
+import '../../global/enums.dart';
 
 class SignUp extends StatefulWidget {
   final Function changeSec;

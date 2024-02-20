@@ -3,13 +3,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pegion/consts.dart';
+import 'package:pegion/global/consts.dart';
 import '../sections/home/chatlist.dart';
+import '../global/socket.dart';
 
 class Home extends StatefulWidget {
   late String userName;
   late Function goToAuth;
-  Home({super.key, required this.userName, required this.goToAuth});
+  Home({super.key, required this.userName, required this.goToAuth}) {
+    if (getSocket() == null) initSocket();
+  }
 
   @override
   _Home createState() => _Home();
@@ -21,6 +24,7 @@ class _Home extends State<Home> {
       final directory = await getApplicationDocumentsDirectory();
       final file = File('${directory.path}/${authFile}');
       await file.writeAsString("", mode: FileMode.write);
+      socketDisconnect();
       print("log details removed success");
     } catch (err) {
       print(err);

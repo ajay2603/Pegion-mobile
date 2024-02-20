@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:pegion/screens/chatpage.dart';
-import '../../consts.dart';
+import '../../global/consts.dart';
 import 'package:http/http.dart' as Http;
-import '../../user.dart';
+import '../../global/user.dart';
 
 class UserListItem extends StatefulWidget {
   late String userName;
