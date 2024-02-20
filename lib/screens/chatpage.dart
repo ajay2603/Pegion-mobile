@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as Http;
+import 'package:pegion/components/chatpage/msgright.dart';
 import '../consts.dart';
 import '../sections/chatpage/messagebox.dart';
+import '../components/chatpage/msgleft.dart';
 
 class ChatPage extends StatefulWidget {
   late String chatUserName;
@@ -158,10 +160,14 @@ class _ChatPage extends State<ChatPage> {
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-            child: Center(
-              child: Text('Chat Area'),
+            child: Column(
+              children: [
+                MsgLeft(),
+                MsgRight(),
+              ],
             ),
           ),
           MessageBox(),
