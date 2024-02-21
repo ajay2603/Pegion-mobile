@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as Http;
@@ -113,6 +114,15 @@ class _ChatPage extends State<ChatPage> {
 
   List liveChat = [];
 
+  bool msgExist(id) {
+    for (var msg in liveChat) {
+      if (msg['id'] == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   void addNewMsg(Map<String, String> msg) {
     setState(() {
       liveChat.add(msg);
@@ -138,6 +148,13 @@ class _ChatPage extends State<ChatPage> {
 
   void addNewMsgStr(data) async {
     var msg = data['msg'];
+    List users = [data['from'], data['to']];
+    if (msgExist(msg['id'])) {
+      return;
+    }
+    if (data['from'] != chatUserName || data['to'] != chatUserName) {
+      return;
+    }
     Map<String, String> newMsg = {
       'id': msg['id'],
       'text': msg['text'],
