@@ -4,11 +4,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as Http;
 import 'package:pegion/components/chatpage/msgdisp.dart';
-import 'package:pegion/components/chatpage/msgright.dart';
 import 'package:pegion/global/user.dart';
 import '../global/consts.dart';
 import '../sections/chatpage/messagebox.dart';
-import '../components/chatpage/msgleft.dart';
+import '../global/socket.dart';
 
 class ChatPage extends StatefulWidget {
   late String chatUserName;
@@ -60,6 +59,7 @@ class _ChatPage extends State<ChatPage> {
     http = Http.Client();
     getUser();
     getPrevMessages();
+    handleEvents();
   }
 
   Widget imgDisp = Image.asset(
@@ -109,6 +109,49 @@ class _ChatPage extends State<ChatPage> {
     } catch (err) {
       print(err);
     }
+  }
+
+  List liveChat = [];
+
+  void addNewMsg(Map<String, String> msg) {
+    setState(() {
+      liveChat.add(msg);
+    });
+  }
+
+  void removeMsg(id) {
+    setState(() {
+      liveChat.removeWhere((msg) => msg['id'] == id);
+    });
+  }
+
+  void updateMsgTime(id, time) {
+    setState(() {
+      for (var msg in liveChat) {
+        if (msg['id'] == id) {
+          msg['time'] = time;
+          return;
+        }
+      }
+    });
+  }
+
+  void addNewMsgStr(data) async {
+    var msg = data['msg'];
+    Map<String, String> newMsg = {
+      'id': msg['id'],
+      'text': msg['text'],
+      'user': msg['user'],
+      'time': msg['time']
+    };
+    addNewMsg(newMsg);
+  }
+
+  void handleEvents() {
+    var socket = getSocket();
+    socket?.on("resLiveMsg", (data) {
+      addNewMsgStr(data);
+    });
   }
 
   @override
@@ -195,13 +238,18 @@ class _ChatPage extends State<ChatPage> {
                     children: [for (var msg in prevChat) MsgDisp(details: msg)],
                   ),
                   Column(
-                    children: [],
+                    children: [for (var msg in liveChat) MsgDisp(details: msg)],
                   )
                 ],
               ),
             ),
           ),
-          MessageBox(),
+          MessageBox(
+            chatUser: widget.chatUserName,
+            addNewMsg: addNewMsg,
+            removeMsg: removeMsg,
+            updateMsgTime: updateMsgTime,
+          ),
         ],
       ),
     );
