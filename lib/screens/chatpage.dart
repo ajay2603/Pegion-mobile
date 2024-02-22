@@ -12,7 +12,8 @@ import '../global/socket.dart';
 
 class ChatPage extends StatefulWidget {
   late String chatUserName;
-  ChatPage({required this.chatUserName});
+  late Function moveToTop;
+  ChatPage({required this.chatUserName, required this.moveToTop});
   @override
   _ChatPage createState() => _ChatPage(chatUserName: chatUserName);
 }
@@ -262,11 +263,11 @@ class _ChatPage extends State<ChatPage> {
             ),
           ),
           MessageBox(
-            chatUser: widget.chatUserName,
-            addNewMsg: addNewMsg,
-            removeMsg: removeMsg,
-            updateMsgTime: updateMsgTime,
-          ),
+              chatUser: widget.chatUserName,
+              addNewMsg: addNewMsg,
+              removeMsg: removeMsg,
+              updateMsgTime: updateMsgTime,
+              moveToTop: widget.moveToTop),
         ],
       ),
     );

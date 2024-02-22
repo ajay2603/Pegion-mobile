@@ -4,11 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:pegion/screens/chatpage.dart';
 import '../../global/consts.dart';
 import 'package:http/http.dart' as Http;
-import '../../global/user.dart';
+
 
 class UserListItem extends StatefulWidget {
-  late String userName;
-  UserListItem({required this.userName});
+  final String userName;
+  final Function moveToTop;
+  final Key key; // Add key parameter
+
+  UserListItem({
+    required this.userName,
+    required this.moveToTop,
+    required this.key, // Initialize key parameter
+  }) : super(key: key); // Pass key to superclass constructor
+
   @override
   _UserListItem createState() => _UserListItem(userName: userName);
 }
@@ -66,92 +74,11 @@ class Loading extends StatelessWidget {
   }
 }
 
-class User extends StatelessWidget {
-  late String userName;
-  late String name;
-  late String pic;
-
-  User({required this.userName, required this.name, required this.pic});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatPage(
-              chatUserName: userName,
-            ),
-          ),
-        );
-      },
-      style: ButtonStyle(
-        overlayColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.pressed)) {
-              return const Color.fromARGB(
-                  255, 213, 213, 214); // This is the color of the ripple
-            }
-            return null; // Defer to the widget's default.
-          },
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: 5),
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                    width: 2, color: Color.fromARGB(255, 213, 213, 214)),
-              ),
-              child: ClipOval(
-                child: Image.network(
-                  '$domain$pic',
-                  height: 47,
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-                Text(
-                  userName,
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 102, 102, 102),
-                      fontStyle: FontStyle.italic),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _UserListItem extends State<UserListItem> {
-  Widget disp = Loading();
+  bool loading = true;
   late var http;
   late String userName;
+  late var result;
 
   _UserListItem({required this.userName}) {
     http = Http.Client();
@@ -163,14 +90,9 @@ class _UserListItem extends State<UserListItem> {
       var response = await http.get(Uri.parse(
           '$domain/api/fetch/user-details/chat-list-info?userName=$userName'));
       var result = jsonDecode(response.body);
+      this.result = result;
       setState(() {
-        disp = User(
-          pic: result['profilePicPath'],
-          userName: userName,
-          name: (userName == getUserG())
-              ? "Me"
-              : (result['firstName'] + " " + result['lastName']),
-        );
+        loading = false;
       });
     } catch (err) {
       print(err);
@@ -184,7 +106,78 @@ class _UserListItem extends State<UserListItem> {
           border:
               Border(bottom: BorderSide(width: 2, color: Color(0xFFE5E7EB)))),*/
       height: 70,
-      child: disp,
+      child: (loading)
+          ? Loading()
+          : TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatPage(
+                        chatUserName: userName, moveToTop: widget.moveToTop),
+                  ),
+                );
+              },
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return const Color.fromARGB(255, 213, 213,
+                          214); // This is the color of the ripple
+                    }
+                    return null; // Defer to the widget's default.
+                  },
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            width: 2,
+                            color: Color.fromARGB(255, 213, 213, 214)),
+                      ),
+                      child: ClipOval(
+                        child: Image.network(
+                          '$domain${result['profilePicPath']}',
+                          height: 47,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          result['firstName'] + " " + result['lastName'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Text(
+                          userName,
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 102, 102, 102),
+                              fontStyle: FontStyle.italic),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }

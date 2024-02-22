@@ -11,11 +11,14 @@ class MessageBox extends StatefulWidget {
   late Function addNewMsg;
   late Function removeMsg;
   late Function updateMsgTime;
-  MessageBox(
-      {required this.chatUser,
-      required this.addNewMsg,
-      required this.removeMsg,
-      required this.updateMsgTime});
+  late Function moveToTop;
+  MessageBox({
+    required this.chatUser,
+    required this.addNewMsg,
+    required this.removeMsg,
+    required this.updateMsgTime,
+    required this.moveToTop,
+  });
 
   @override
   _MessageBox createState() => _MessageBox();
@@ -59,6 +62,7 @@ class _MessageBox extends State<MessageBox> {
       var result = jsonDecode(response.body);
       print(result);
       if (result['stat']) {
+        widget.moveToTop(widget.chatUser);
         widget.updateMsgTime(id, result['time']);
       } else {
         print("else");
