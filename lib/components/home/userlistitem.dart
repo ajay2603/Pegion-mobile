@@ -5,6 +5,7 @@ import 'package:pegion/screens/chatpage.dart';
 import '../../global/consts.dart';
 import 'package:http/http.dart' as Http;
 
+import '../../global/user.dart';
 
 class UserListItem extends StatefulWidget {
   final String userName;
@@ -156,7 +157,9 @@ class _UserListItem extends State<UserListItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          result['firstName'] + " " + result['lastName'],
+                          (userName == getUserG())
+                              ? "Me"
+                              : result['firstName'] + " " + result['lastName'],
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 18,
