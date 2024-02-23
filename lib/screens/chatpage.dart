@@ -153,7 +153,7 @@ class _ChatPage extends State<ChatPage> {
     if (msgExist(msg['id'])) {
       return;
     }
-    if (data['from'] != chatUserName || data['to'] != chatUserName) {
+    if (data['from'] != chatUserName && data['to'] != chatUserName) {
       return;
     }
     Map<String, String> newMsg = {
