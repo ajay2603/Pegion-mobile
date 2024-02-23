@@ -119,7 +119,7 @@ class _LoadingPage extends State<LoadingPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Validating User ${dots[indx]}",
+                      "Validating session ${dots[indx]}",
                       style: const TextStyle(color: Colors.white, fontSize: 25),
                     ),
                   ],
