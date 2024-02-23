@@ -78,6 +78,9 @@ class _Home extends State<Home> {
 
   void handleEvents() {
     var socket = getSocket();
+    if (socket == null) {
+      Future.delayed(Duration(seconds: 1), () => handleEvents());
+    }
     socket?.on('newLiveChat', (user) {
       if (!list.contains(user)) {
         list.insert(0, user);
