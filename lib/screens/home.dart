@@ -6,13 +6,13 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pegion/components/showalertdialog.dart';
 import 'package:pegion/global/consts.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../components/home/userlistitem.dart';
 import '../global/socket.dart';
 import '../screens/allpeople.dart';
 import '../global/user.dart';
 import 'package:http/http.dart' as HTTP;
 import 'package:restart_app/restart_app.dart';
+import '../firebase/notifications.dart';
 
 class Home extends StatefulWidget {
   late String userName;
@@ -20,6 +20,7 @@ class Home extends StatefulWidget {
 
   Home({super.key, required this.userName, required this.goToAuth}) {
     initSocket();
+    Notifications.reqNotification();
   }
 
   @override
@@ -45,8 +46,24 @@ class _Home extends State<Home> {
     } catch (err) {
       print(err);
     } finally {
-      widget.goToAuth();
-      Restart.restartApp();
+      try {
+        final response = await HTTP.Client()
+            .post(Uri.parse('$domain/api/user-auth/sign-out'), body: {
+          'userName': getUserG(),
+          'logID': getLogIdG(),
+          'fcmToken': getFcmToken()
+        });
+        var result = jsonDecode(response.body);
+        if (result['stat']) {
+          widget.goToAuth();
+          Restart.restartApp();
+        } else {
+          showAlertDialog(context, "Internal Server Error", "Unable to logout");
+        }
+      } catch (err) {
+        print(err);
+        showAlertDialog(context, "Network Error", "Unable to logout");
+      }
     }
   }
 

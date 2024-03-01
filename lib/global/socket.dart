@@ -9,6 +9,7 @@ void initSocket() async {
     Map query = {
       'userName': getUserG(),
       'logID': getLogIdG(),
+      'fcmToken': getFcmToken()
     };
     IO.OptionBuilder options =
         IO.OptionBuilder().setTransports(['websocket']).setQuery(query);
@@ -24,6 +25,7 @@ void initSocket() async {
       setSocket(socket);
     });
   } catch (err) {
+    print("Error occured");
     print(err);
   }
 }

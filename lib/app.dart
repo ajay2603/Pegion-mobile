@@ -9,12 +9,12 @@ import './screens/loading.dart';
 import './screens/home.dart';
 import './screens/auth.dart';
 
-class App extends StatefulWidget {
+class MyApp extends StatefulWidget {
   @override
-  _App createState() => _App();
+  _MyApp createState() => _MyApp();
 }
 
-class _App extends State<App> {
+class _MyApp extends State<MyApp> {
   late Widget display = LoadingPage(
     goToAuth: goToAuth,
     goToHome: goToHome,

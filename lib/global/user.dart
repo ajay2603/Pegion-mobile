@@ -2,6 +2,8 @@ String user = "";
 
 String logId = "";
 
+String fcmToken = "";
+
 String getLogIdG() {
   return logId;
 }
@@ -16,4 +18,12 @@ String getUserG() {
 
 void setUserG(String name) {
   user = name;
+}
+
+void setFcmToken(token) {
+  fcmToken = token;
+}
+
+String getFcmToken() {
+  return fcmToken;
 }

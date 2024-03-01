@@ -52,7 +52,7 @@ class _Auth extends State<Auth> {
       final response = await Http.post(
           Uri.parse('$domain/api/user-auth/auth-user-login'),
           body: {'userName': data['userName'], 'password': data['password']});
-      final Map result = jsonDecode(response.body);
+      var result = jsonDecode(response.body);
       if (result['stat']) {
         Map<String, String> authDetails = {
           "userName": result['userName'],

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "204056403715",
+    "project_id": "pegion-18fd4",
+    "storage_bucket": "pegion-18fd4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204056403715:android:a67860f1e0d2a6d31a1336",
+        "android_client_info": {
+          "package_name": "com.example.pegion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjrq18e79D1Z6gpwHz89k3eiMNle_r3xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
