@@ -143,9 +143,20 @@ class _UserListItem extends State<UserListItem> {
                             color: Color.fromARGB(255, 213, 213, 214)),
                       ),
                       child: ClipOval(
-                        child: Image.network(
-                          '$domain${result['profilePicPath']}',
-                          height: 47,
+                        child: Stack(
+                          children: [
+                            // Black container for initial space
+                            Container(
+                              width: 47, // Adjust width and height as needed
+                              height: 47,
+                              color: const Color.fromARGB(255, 205, 205, 205),
+                            ),
+                            // Image with initial opacity of 0 (invisible)
+                            Image.network(
+                              '$domain${result['profilePicPath']}',
+                              height: 47,
+                            ),
+                          ],
                         ),
                       ),
                     ),
